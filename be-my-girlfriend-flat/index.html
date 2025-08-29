@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>For My Baby 💖</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --pink:#ec4899;
+      --pink-600:#db2777;
+      --rose-500:#f43f5e;
+      --soft:#fff0f6;
+      --soft2:#e3f2ff;
+      --ink:#111827;
+      --muted:#6b7280;
+      --ring: #fbcfe8;
+      --card:#ffffff;
+      --border:#fce7f3;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,Helvetica,sans-serif;
+      color:var(--ink);
+      background: radial-gradient(100% 100% at 0% 0%, #ffe4f0 0%, #d0f0ff 50%, #ffffff 100%);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:16px;
+    }
+    .card{
+      width:min(720px,100%);
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:20px;
+      padding:28px;
+      box-shadow:0 20px 40px rgba(0,0,0,.08);
+    }
+    h1{margin:0;font-size:28px}
+    .header{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+    .heart-badge{
+      height:44px;width:44px;border-radius:16px;
+      background:linear-gradient(135deg,var(--pink),var(--rose-500));
+      color:#fff;display:grid;place-items:center;
+      box-shadow:0 8px 20px rgba(236,72,153,.35);
+      transform:rotate(-4deg);
+    }
+    p{line-height:1.6;color:#374151}
+    .reasons{display:grid;grid-template-columns:repeat(1,1fr);gap:10px;margin:18px 0}
+    @media(min-width:640px){.reasons{grid-template-columns:repeat(2,1fr)}}
+    .reason{background:#fff0f6;border:1px solid var(--border);padding:10px 12px;border-radius:12px;font-size:14px;color:#831843;box-shadow:0 1px 0 #f8c7e4}
+    .gallery{margin:18px 0}
+    .gallery-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+    .tile{aspect-ratio:1/1;border-radius:12px;background:linear-gradient(135deg,#ffe4f0,#d0f0ff);box-shadow:0 1px 0 rgba(0,0,0,.06);overflow:hidden}
+    .tile img{width:100%;height:100%;object-fit:cover;display:block}
+    .cta{background:linear-gradient(135deg,#ffe4f0,#d0f0ff);border:1px solid #fbcfe8;border-radius:18px;padding:18px;text-align:center}
+    .cta h3{margin:0 0 10px;font-size:22px}
+    .row{display:flex;gap:10px;justify-content:center}
+    .btn{border:1px solid transparent;border-radius:14px;padding:12px 18px;font-weight:700;cursor:pointer;transition:.15s transform,.15s background,.15s box-shadow}
+    .btn:active{transform:translateY(1px)}
+    .btn-primary{background:var(--pink);color:#fff}
+    .btn-primary:hover{background:var(--pink-600)}
+    .btn-ghost{background:#fff;color:var(--pink);border-color:#f9a8d4}
+    .hint{margin-top:8px;color:#6b7280;font-size:12px}
+    .date{margin-top:14px;display:flex;justify-content:space-between;align-items:center;border:1px solid #eee;border-radius:12px;padding:10px 12px;background:#fff}
+    .footer{text-align:center;color:#6b7280;font-size:13px;margin-top:24px}
+    /* Modal */
+    .modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.45);backdrop-filter:blur(2px);display:none;align-items:center;justify-content:center;padding:16px}
+    .modal{background:#fff;border-radius:16px;padding:20px;width:min(480px,100%);text-align:center;box-shadow:0 30px 60px rgba(0,0,0,.3)}
+    .pill-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:12px 0}
+    .pill{background:#fff0f6;border:1px solid var(--border);padding:8px 10px;border-radius:12px;font-size:14px}
+    .show{display:flex}
+    .small{font-size:12px;color:#6b7280}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="header">
+      <div class="heart-badge">❤</div>
+      <h1>For <span id="girlName"></span></h1>
+    </div>
+
+    <p id="opener"></p>
+
+    <div class="reasons" id="reasons"></div>
+
+    <div class="gallery">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+        <div style="font-weight:600">Little gallery</div>
+        <div class="small"></div>
+      </div>
+      <div class="gallery-grid" id="galleryGrid"></div>
+    </div>
+
+    <div class="cta">
+      <h3 id="mainQuestion"></h3>
+      <div class="row" style="margin-top:10px">
+        <button class="btn btn-primary" id="yesBtn">YES 💞</button>
+        <button class="btn btn-ghost" id="noBtn">um… no?</button>
+      </div>
+      <div class="hint" id="hint">(no pressure.. only answer if your heart says yes)</div>
+    </div>
+
+    <div class="date">
+      <div>
+        <div class="small">First-date idea</div>
+        <div id="dateIdea" style="font-weight:600"></div>
+      </div>
+      <button class="btn" id="newIdeaBtn">new idea ↻</button>
+    </div>
+
+    <div class="footer">made with ♥ by <span id="yourName"></span></div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal-backdrop" id="modalBackdrop">
+    <div class="modal">
+      <h3 style="margin:0 0 6px;font-size:24px">YAY! 💘</h3>
+      <p class="small" style="font-size:15px;color:#374151">
+        I’m grinning so hard right now. You just made my day, my week, my everything.
+      </p>
+      <div class="pill-grid">
+        <div class="pill">I owe you boba</div>
+        <div class="pill">Hand-holding privileges unlocked</div>
+        <div class="pill">Cuddle queue priority</div>
+        <div class="pill">Playlist incoming</div>
+      </div>
+      <button class="btn btn-primary" id="okYayBtn">okayy yay</button>
+    </div>
+  </div>
+
+  <!-- Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <script>
+    // ---- Editable content ----
+    const YOUR_NAME = "Jaylen";
+    const GIRL_NAME = "My Baby";
+    const MAIN_QUESTION = "Will you be my girlfriend?";
+    const OPENER = `Hey ${GIRL_NAME} ✨\nIt’s me, ${YOUR_NAME}. I made you a cute website because you're so cute and adorkable.`;
+
+    const REASONS = [
+      "You make me so happy every time we call",
+      "I feel calm and lovey and playful at the same time with you",
+      "I love how cute you are when you're nervous",
+      "Your voice is my favorite",
+      "And, I want to be your safe place always",
+    ];
+
+    const FIRST_DATE_IDEAS = [
+      "Boba + ocean walk",
+      "Olive Garden Lunch",
+      "Movie Night",
+      "Karaoke!! Disney Songs",
+      "99 Nights, and 99 nuts LOL",
+    ];
+
+    // Images: put 5 photos inside /images with these names
+    const GALLERY = [
+      { alt: "first photo", src: "images/image1.jpg" },
+      { alt: "second photo", src: "images/image2.jpg" },
+      { alt: "third photo", src: "images/image3.jpg" },
+      { alt: "fourth photo", src: "images/image4.jpg" },
+      { alt: "fifth photo", src: "images/image5.jpg" },
+    ];
+
+    // ---- Page wiring ----
+    const $ = (s)=>document.querySelector(s);
+    $("#girlName").textContent = GIRL_NAME;
+    $("#yourName").textContent = YOUR_NAME;
+    $("#mainQuestion").textContent = MAIN_QUESTION;
+    $("#opener").textContent = OPENER;
+
+    // Reasons list
+    const reasonsEl = $("#reasons");
+    REASONS.forEach(r=>{
+      const div = document.createElement("div");
+      div.className = "reason";
+      div.innerHTML = "💗 " + r;
+      reasonsEl.appendChild(div);
+    });
+
+    // Gallery
+    const grid = $("#galleryGrid");
+    GALLERY.forEach(g=>{
+      const tile = document.createElement("div");
+      tile.className = "tile";
+      const img = document.createElement("img");
+      img.src = g.src;
+      img.alt = g.alt;
+      tile.appendChild(img);
+      grid.appendChild(tile);
+    });
+
+    // Date ideas
+    let ideaIndex = 0;
+    const dateEl = $("#dateIdea");
+    const setIdea = ()=>{ dateEl.textContent = FIRST_DATE_IDEAS[ideaIndex]; };
+    setIdea();
+    $("#newIdeaBtn").addEventListener("click", ()=>{
+      ideaIndex = (ideaIndex + 1) % FIRST_DATE_IDEAS.length;
+      setIdea();
+    });
+
+    // Evasive NO button
+    let noClicks = 0;
+    const noBtn = $("#noBtn");
+    const hint = $("#hint");
+    noBtn.addEventListener("mouseenter", ()=>moveNo());
+    noBtn.addEventListener("click", ()=>moveNo());
+    function moveNo(){
+      noClicks++;
+      const angle = Math.random()*Math.PI*2;
+      const radius = 40 + Math.min(noClicks*10, 160);
+      noBtn.style.transform = `translate(${Math.cos(angle)*radius}px, ${Math.sin(angle)*radius}px) rotate(${(noClicks*37)%360}deg)`;
+      hint.textContent = "That’s okay, I can be patient… but also 👀";
+    }
+
+    // YES button → confetti + modal
+    $("#yesBtn").addEventListener("click", ()=>{
+      confetti({ particleCount: 120, spread: 70, origin: { y: 0.6 } });
+      confetti({ particleCount: 80, angle: 60, spread: 55, origin: { x: 0 } });
+      confetti({ particleCount: 80, angle: 120, spread: 55, origin: { x: 1 } });
+      $("#modalBackdrop").classList.add("show");
+    });
+    $("#okYayBtn").addEventListener("click", ()=>{
+      $("#modalBackdrop").classList.remove("show");
+    });
+  </script>
+</body>
+</html>
